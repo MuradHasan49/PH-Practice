@@ -1,4 +1,5 @@
 import { Link, Button } from "@heroui/react";
+import ThemeToggleButton from "./ThemeToggleButton";
 
 const Navbar = () => {
     return (
@@ -14,10 +15,11 @@ const Navbar = () => {
                         <li><Link href="/homepage">Home</Link></li>
                         <li><Link href="/main">Main</Link></li>
                     </ul>
-                </header>
-                <div className="">
-                    
+                                    <div className="">
+                    <ThemeToggleButton/>
                 </div>
+                </header>
+
             </nav>
         </>
     )

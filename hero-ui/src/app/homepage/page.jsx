@@ -6,11 +6,11 @@ const HomeContent = async () => {
     console.log(data);
     return (
         <>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4"> 
-        {
-            data.map(item =>  <ProduceCard key={item.id} item={item} />)
-        }
-       </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+                {
+                    data.map(item => <ProduceCard key={item.id} item={item} />)
+                }
+            </div>
         </>
     )
 }
