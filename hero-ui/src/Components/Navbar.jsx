@@ -15,9 +15,9 @@ const Navbar = () => {
                         <li><Link href="/homepage">Home</Link></li>
                         <li><Link href="/main">Main</Link></li>
                     </ul>
-                                    <div className="">
-                    <ThemeToggleButton/>
-                </div>
+                    <div className="">
+                        <ThemeToggleButton />
+                    </div>
                 </header>
 
             </nav>
