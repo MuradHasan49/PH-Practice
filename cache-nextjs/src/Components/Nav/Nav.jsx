@@ -16,8 +16,8 @@ const Nav = () => {
           </Link>
         </li>
         <li>
-          <Link href="/contact" className="text-gray-800 hover:text-blue-600 transition-colors">
-            Contact
+          <Link href="/user" className="text-gray-800 hover:text-blue-600 transition-colors">
+            User
           </Link>
         </li>
       </ul>
