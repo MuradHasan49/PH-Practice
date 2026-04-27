@@ -1,7 +1,7 @@
-import React from 'react'
+import Link from 'next/link';
 
-const ProductCard = ({item}) => {
-    const {name,price, description,category} = item;
+const ProductCard = ({ item }) => {
+    const { name, price, description, category, id } = item;
     return (
         <div className="card bg-purple-600 shadow-sm" >
             <div className="card-body">
@@ -14,7 +14,9 @@ const ProductCard = ({item}) => {
                     <p>{description}</p>
                 </div>
                 <div className="mt-6">
-                    <button className="btn btn-primary btn-block">Show More Details</button>
+                    <Link href={`/user/${id}`}>
+                        <button className="btn btn-primary btn-block">Show More Details</button>
+                    </Link>
                 </div>
             </div>
         </div>

@@ -2,7 +2,7 @@
 const MoreDetails = ({data}) => {
     const { name , phone, email ,role } = data
     return (
-        <div className="card bg-purple-600 shadow-sm" >
+        <div className="card bg-purple-600 shadow-sm w-xl mx-auto mt-8" >
             <div className="card-body">
                 <span className="badge badge-xs badge-warning">{role}</span>
                 <div className="flex justify-between">
@@ -11,9 +11,6 @@ const MoreDetails = ({data}) => {
                 </div>
                 <div className="">
                     <p>{phone}</p>
-                </div>
-                <div className="mt-6">
-                    <button className="btn btn-primary btn-block">Show More Details</button>
                 </div>
             </div>
         </div>

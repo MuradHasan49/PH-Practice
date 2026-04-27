@@ -1,6 +1,5 @@
 import ProductCard from "@/Components/ProductCard/ProductCard"
 
-
 const UserPage = async() => {
     const res = await fetch("http://localhost:5000/users")
     const data = await res.json()
