@@ -13,7 +13,7 @@ const Navbar = () => {
                     </div>
                     <ul className="flex items-center gap-4">
                         <li><Link href="/homepage">Home</Link></li>
-                        <li><Link href="/main">Main</Link></li>
+                        <li><Link href="/form/signup">SignIn</Link></li>
                     </ul>
                     <div className="">
                         <ThemeToggleButton />
