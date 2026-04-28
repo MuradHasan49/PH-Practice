@@ -1,8 +1,8 @@
 "use client";
 import { CirclePlus } from "@gravity-ui/icons";
-import { Button, Input, Label, Modal, Surface, TextField, ListBox, Select } from "@heroui/react";
+import { Button, Input, Label, Modal, Surface, TextField, ListBox, Select, FieldError } from "@heroui/react";
 
-const ModalPage = ({AddNewTask}) => {
+const ModalPage = ({ AddNewTask }) => {
     return (
         <Modal>
             <Button variant="secondary">Add new Task <CirclePlus /></Button>
@@ -19,15 +19,27 @@ const ModalPage = ({AddNewTask}) => {
                         <Modal.Body className="p-6">
                             <Surface variant="default">
                                 <form action={AddNewTask} className="flex flex-col gap-4">
-                                    <TextField className="w-full" >
+                                    <TextField isRequired className="w-full" >
                                         <Label>Name</Label>
                                         <Input name="name" type="text" placeholder="Enter your name" />
                                     </TextField>
-                                    <TextField className="w-full" name="email" type="email">
+                                    <TextField
+                                        isRequired
+                                        name="email"
+                                        type="email"
+                                        validate={(value) => {
+                                            if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
+                                                return "Please enter a valid email address";
+                                            }
+                                            return null;
+                                        }}
+                                        className="w-full"
+                                    >
                                         <Label>Email</Label>
                                         <Input placeholder="Enter your email" />
+                                         <FieldError />
                                     </TextField>
-                                    <TextField className="w-full" name="role" type="text">
+                                    <TextField isRequired className="w-full" name="role" type="text" >
                                         <Label>Role</Label>
                                         <Input placeholder="Enter your Role" />
                                     </TextField>
@@ -58,7 +70,7 @@ const ModalPage = ({AddNewTask}) => {
                                         <Button slot="close" variant="secondary">
                                             Cancel
                                         </Button>
-                                        <Button slot="close" type="submit">Submit Form</Button>
+                                        <Button type="submit">Submit Form</Button>
                                     </Modal.Footer>
                                 </form>
                             </Surface>
