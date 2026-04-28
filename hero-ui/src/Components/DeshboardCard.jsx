@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Line, Doughnut } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -13,7 +14,16 @@ import {
   Filler,
 } from "chart.js";
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, ArcElement, Tooltip, Legend, Filler);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  ArcElement,
+  Tooltip,
+  Legend,
+  Filler
+);
 
 const stats = [
   { label: "Total Users", value: "2,847", change: "+12% this month", up: true },
@@ -38,26 +48,30 @@ const statusStyle = {
 
 const lineData = {
   labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-  datasets: [{
-    data: [23, 31, 28, 42, 38, 51, 47],
-    borderColor: "#6366f1",
-    backgroundColor: "rgba(99,102,241,0.08)",
-    fill: true,
-    tension: 0.4,
-    pointRadius: 3,
-    pointBackgroundColor: "#6366f1",
-    borderWidth: 2,
-  }],
+  datasets: [
+    {
+      data: [23, 31, 28, 42, 38, 51, 47],
+      borderColor: "#6366f1",
+      backgroundColor: "rgba(99,102,241,0.08)",
+      fill: true,
+      tension: 0.4,
+      pointRadius: 3,
+      pointBackgroundColor: "#6366f1",
+      borderWidth: 2,
+    },
+  ],
 };
 
 const donutData = {
   labels: ["Organic", "Direct", "Social", "Referral"],
-  datasets: [{
-    data: [42, 28, 18, 12],
-    backgroundColor: ["#6366f1", "#10b981", "#f59e0b", "#ec4899"],
-    borderWidth: 0,
-    hoverOffset: 4,
-  }],
+  datasets: [
+    {
+      data: [42, 28, 18, 12],
+      backgroundColor: ["#6366f1", "#10b981", "#f59e0b", "#ec4899"],
+      borderWidth: 0,
+      hoverOffset: 4,
+    },
+  ],
 };
 
 const getChartOptions = (isDark) => ({
@@ -67,11 +81,18 @@ const getChartOptions = (isDark) => ({
   scales: {
     x: {
       grid: { color: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)" },
-      ticks: { color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)", font: { size: 11 } },
+      ticks: {
+        color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.6)",
+        font: { size: 11 },
+      },
     },
     y: {
       grid: { color: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)" },
-      ticks: { color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)", font: { size: 11 }, maxTicksLimit: 5 },
+      ticks: {
+        color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.6)",
+        font: { size: 11 },
+        maxTicksLimit: 5,
+      },
     },
   },
 });
@@ -84,7 +105,8 @@ const getDonutOptions = (isDark) => ({
         font: { size: 11 },
         boxWidth: 10,
         padding: 8,
-        color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)",
+        // Increased opacity slightly for better readability
+        color: isDark ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.7)", 
       },
     },
   },
@@ -93,20 +115,39 @@ const getDonutOptions = (isDark) => ({
   cutout: "65%",
 });
 
-export default function DeshboardCard() {
-  const isDark = typeof document !== "undefined"
-    ? document.documentElement.classList.contains("dark")
-    : false;
+export default function DashboardCard() {
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    // Function to check and set the theme
+    const checkTheme = () => {
+      setIsDark(document.documentElement.classList.contains("dark"));
+    };
+
+    // 1. Initial check on mount
+    checkTheme();
+
+    // 2. Set up an observer to listen for class changes on the <html> tag
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    // Cleanup observer on unmount
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 p-6 transition-colors duration-300">
       <div className="max-w-6xl mx-auto">
-
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
             <p className="text-sm text-zinc-400 mb-1">Good morning</p>
-            <h1 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">Dashboard</h1>
+            <h1 className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">
+              Dashboard
+            </h1>
           </div>
           <div className="w-9 h-9 rounded-full bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center text-indigo-600 dark:text-indigo-400 text-sm font-semibold">
             MH
@@ -116,10 +157,21 @@ export default function DeshboardCard() {
         {/* Stat Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
           {stats.map((stat) => (
-            <div key={stat.label} className="bg-white dark:bg-zinc-800 rounded-xl p-4 border border-zinc-100 dark:border-zinc-700 transition-colors duration-300">
+            <div
+              key={stat.label}
+              className="bg-white dark:bg-zinc-800 rounded-xl p-4 border border-zinc-100 dark:border-zinc-700 transition-colors duration-300"
+            >
               <p className="text-xs text-zinc-400 mb-1">{stat.label}</p>
-              <p className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">{stat.value}</p>
-              <p className={`text-xs mt-1 ${stat.up ? "text-green-500 dark:text-green-400" : "text-yellow-500 dark:text-yellow-400"}`}>
+              <p className="text-2xl font-semibold text-zinc-800 dark:text-zinc-100">
+                {stat.value}
+              </p>
+              <p
+                className={`text-xs mt-1 ${
+                  stat.up
+                    ? "text-green-500 dark:text-green-400"
+                    : "text-yellow-500 dark:text-yellow-400"
+                }`}
+              >
                 {stat.change}
               </p>
             </div>
@@ -128,12 +180,16 @@ export default function DeshboardCard() {
 
         {/* Charts */}
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
-          <div className="md:col-span-3 bg-white dark:bg-zinc-800 rounded-xl border text-zinc-400 dark:border-zinc-700 p-5 transition-colors duration-300">
-            <p className="text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-4">Signups — last 7 days</p>
-            <Line className="" data={lineData} options={getChartOptions(isDark)} />
+          <div className="md:col-span-3 bg-white dark:bg-zinc-800 rounded-xl border border-zinc-100 dark:border-zinc-700 p-5 transition-colors duration-300">
+            <p className="text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-4">
+              Signups — last 7 days
+            </p>
+            <Line data={lineData} options={getChartOptions(isDark)} />
           </div>
           <div className="md:col-span-2 bg-white dark:bg-zinc-800 rounded-xl border border-zinc-100 dark:border-zinc-700 p-5 transition-colors duration-300">
-            <p className="text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-4">Traffic sources</p>
+            <p className="text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-4">
+              Traffic sources
+            </p>
             <Doughnut data={donutData} options={getDonutOptions(isDark)} />
           </div>
         </div>
@@ -141,8 +197,12 @@ export default function DeshboardCard() {
         {/* Users Table */}
         <div className="bg-white dark:bg-zinc-800 rounded-xl border border-zinc-100 dark:border-zinc-700 p-5 transition-colors duration-300">
           <div className="flex items-center justify-between mb-4">
-            <p className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Recent users</p>
-            <button className="text-xs text-indigo-500 hover:underline">View all</button>
+            <p className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+              Recent users
+            </p>
+            <button className="text-xs text-indigo-500 hover:underline">
+              View all
+            </button>
           </div>
           <table className="w-full text-sm">
             <thead>
@@ -155,19 +215,31 @@ export default function DeshboardCard() {
             </thead>
             <tbody>
               {users.map((user) => (
-                <tr key={user.email} className="border-b border-zinc-50 dark:border-zinc-700/50 hover:bg-zinc-50 dark:hover:bg-zinc-700/30 transition-colors">
+                <tr
+                  key={user.email}
+                  className="border-b border-zinc-50 dark:border-zinc-700/50 hover:bg-zinc-50 dark:hover:bg-zinc-700/30 transition-colors"
+                >
                   <td className="py-3">
                     <div className="flex items-center gap-2">
                       <div className="w-7 h-7 rounded-full bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center text-indigo-600 dark:text-indigo-400 text-xs font-semibold">
-                        {user.name.split(" ").map((n) => n[0]).join("")}
+                        {user.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
                       </div>
-                      <span className="text-zinc-700 dark:text-zinc-300">{user.name}</span>
+                      <span className="text-zinc-700 dark:text-zinc-300">
+                        {user.name}
+                      </span>
                     </div>
                   </td>
                   <td className="py-3 text-zinc-400">{user.email}</td>
                   <td className="py-3 text-zinc-400">{user.joined}</td>
                   <td className="py-3">
-                    <span className={`text-xs px-2 py-1 rounded-full font-medium ${statusStyle[user.status]}`}>
+                    <span
+                      className={`text-xs px-2 py-1 rounded-full font-medium ${
+                        statusStyle[user.status]
+                      }`}
+                    >
                       {user.status}
                     </span>
                   </td>
@@ -176,7 +248,6 @@ export default function DeshboardCard() {
             </tbody>
           </table>
         </div>
-
       </div>
     </div>
   );
