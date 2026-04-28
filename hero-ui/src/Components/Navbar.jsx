@@ -5,6 +5,9 @@ import { signOut, useSession } from "@/lib/auth-client";
 
 const Navbar = () => {
     const { data, isPending } = useSession();
+    if (isPending) {
+        return <div> Loading...... </div>
+    }
     const user = data?.user;
     return (
 
@@ -13,10 +16,11 @@ const Navbar = () => {
             <nav className="sticky top-0 z-40 w-full border-b border-separator bg-background/70 backdrop-blur-lg">
                 <header className="flex h-16 items-center justify-between px-6">
                     <div className="flex items-center gap-3">
-                        <p className="font-bold">ACME</p>
+                        <p className="font-bold">MHS Auth</p>
                     </div>
                     <ul className="flex items-center gap-4">
-                        <li><Link href="/homepage">Home</Link></li>
+                        {/* <li><Link href="/homepage">Home</Link></li> */}
+                        <li><Link href="/deshboard">Deshboard</Link></li>
                     </ul>
                     <div className="flex items-center gap-3">
                         <ThemeToggleButton />
@@ -24,7 +28,7 @@ const Navbar = () => {
                             {user ? (
                                 <div className="flex items-center gap-3">
                                     <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-default-100 border border-default-200">
-                                        <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-xs font-semibold">
+                                        <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-default-700 text-xs font-semibold">
                                             {user.name?.charAt(0).toUpperCase()}
                                         </div>
                                         <span className="text-sm font-medium text-default-700">
@@ -61,8 +65,6 @@ const Navbar = () => {
                                             Sign Up
                                         </Button>
                                     </Link>
-
-
                                 </div>
                             )}
                         </div>
