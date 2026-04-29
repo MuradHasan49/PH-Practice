@@ -1,5 +1,6 @@
 
 import DeshboardCard from "@/Components/DeshboardCard";
+import Unauthorized from "@/Components/Unauthorized";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 
@@ -11,7 +12,7 @@ const DeshboardPage = async () => {
     const user = session?.user;
     console.log(user)
     if (!user) {
-        return <div>Unauthorized. Please SignIn to access the Deshboard.</div>
+        return <Unauthorized/>
     }
 
     return (
