@@ -27,7 +27,7 @@ const Navbar = () => {
 
   return (
     <nav className="sticky top-0 z-40 w-full border-b border-zinc-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-lg transition-colors duration-300">
-      <header className="flex h-16 items-center justify-between px-6 max-w-7xl mx-auto">
+      <header className="flex h-16 items-center justify-between px-6 container mx-auto">
 
         {/* Logo */}
         <Link href="/" className="font-bold text-lg text-zinc-800 dark:text-zinc-100 tracking-tight">
@@ -70,7 +70,7 @@ const Navbar = () => {
                   <div className="w-6 h-6 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white text-xs font-semibold">
                     {user.name?.charAt(0).toUpperCase()}
                   </div>
-                  <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+                  <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300 uppercase">
                     {user.name}
                   </span>
                 </div>
